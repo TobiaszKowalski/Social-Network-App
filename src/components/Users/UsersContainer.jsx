@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setIsFetchingAC } from '../../state/reducers/users-reducer';
+import { followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setIsFetchingAC, toggleFollowingProgressAC } from '../../state/reducers/users-reducer';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader'
 import { usersAPI } from '../../API/api';
@@ -9,20 +9,20 @@ import { usersAPI } from '../../API/api';
 class UsersAPIContainer extends React.Component {
 
     componentDidMount() {
-        this.props.setIsFetching(true);
+        this.props.setIsFetchingAC(true);
         usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data=>{
-            this.props.setIsFetching(false);
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount)
+            this.props.setIsFetchingAC(false);
+            this.props.setUsersAC(data.items);
+            this.props.setTotalUsersCountAC(data.totalCount)
         })
     }
 
     onPageChanged = (pageNumber) => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.setIsFetching(true);
+        this.props.setCurrentPageAC(pageNumber);
+        this.props.setIsFetchingAC(true);
         usersAPI.getUsers(pageNumber, this.props.pageSize).then(data=>{
-            this.props.setIsFetching(false);
-            this.props.setUsers(data.items)
+            this.props.setIsFetchingAC(false);
+            this.props.setUsersAC(data.items)
         })
     }
 
@@ -34,8 +34,10 @@ class UsersAPIContainer extends React.Component {
         currentPage = {this.props.currentPage}
         onPageChanged={this.onPageChanged}
         users = {this.props.users}
-        unfollow = {this.props.unfollow}
-        follow = {this.props.follow}
+        unfollow = {this.props.unfollowAC}
+        follow = {this.props.followAC}
+        toggleFollowingProgress = {this.props.toggleFollowingProgressAC}
+        followingInProgress = {this.props.followingInProgress}
     />
     </>
     }
@@ -48,10 +50,12 @@ let mapStateToProps = (state) => {
         pageSize: state.usersReducer.pageSize,
         totalUsersCount: state.usersReducer.totalUsersCount,
         currentPage: state.usersReducer.currentPage,
-        isFetching: state.usersReducer.isFetching
+        isFetching: state.usersReducer.isFetching,
+        followingInProgress: state.usersReducer.followingInProgress
     }
 };
 
+/*Старый вариант
 let mapDispatchToProps = (dispatch) => {
     return {
         follow: (userId) => {
@@ -73,6 +77,8 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(setIsFetchingAC(isFetching))
         },
     }
-};
+};*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer);
+export default connect(mapStateToProps, {
+    followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setIsFetchingAC, toggleFollowingProgressAC
+})(UsersAPIContainer);

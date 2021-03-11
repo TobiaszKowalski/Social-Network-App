@@ -33,14 +33,22 @@ let Users = (props) => {
                                 <div>
                                     {
                                         user.followed
-                                            ? <button onClick={() => { 
+                                            ? <button disabled={props.followingInProgress.some(id=>id===user.id)} onClick={() => { 
+                                                props.toggleFollowingProgress(true, user.id)
                                                 usersAPI.unfollowUsers(user.id).then(resultCode => {
-                                                    if (resultCode === 0) {props.unfollow(user.id)}
+                                                    if (resultCode === 0) {
+                                                        props.unfollow(user.id)
+                                                    }
+                                                    props.toggleFollowingProgress(false, user.id)
                                                 })
                                                 }}>Unfollow</button>
-                                            : <button onClick={() => {
+                                            : <button disabled={props.followingInProgress.some(id=>id===user.id)} onClick={() => {
+                                                props.toggleFollowingProgress(true, user.id)
                                                 usersAPI.followUsers(user.id).then(resultCode => {
-                                                    if (resultCode === 0) {props.follow(user.id)}
+                                                    if (resultCode === 0) {
+                                                        props.follow(user.id)
+                                                    }
+                                                    props.toggleFollowingProgress(false, user.id)
                                                 })
                                                 }}>Follow</button>
                                     }
