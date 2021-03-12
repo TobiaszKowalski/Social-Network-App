@@ -14,15 +14,20 @@ export const usersAPI = {
     getUsers(currentPage, pageSize) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
     },
-    onAuth(){
-        return instance.get(`auth/me`).then(response => response.data)
-    },
     followUsers(id){
         return instance.post(`follow/${id}`).then(response => response.data.resultCode)
     },
     unfollowUsers(id){
         return instance.delete(`follow/${id}`).then(response => response.data.resultCode)
+    },
+    getProfileUsers(id) {
+        return instance.get(`profile/${id}`)
     }
 }
 
+export const authAPI = {
+    onAuth(){
+        return instance.get(`auth/me`).then(response => response.data)
+    }
+}
 
