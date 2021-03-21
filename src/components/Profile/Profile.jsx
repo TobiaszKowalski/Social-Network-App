@@ -1,9 +1,10 @@
 import React from 'react';
-import style from '../Profile/Profile.module.css';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
 
+
 const Profile = (props) => {
+
     return (
         <div>
             <ProfileInfo profile={props.profile} />

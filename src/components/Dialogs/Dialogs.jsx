@@ -4,6 +4,7 @@ import Message from './Message/Message';
 import style from './Dialogs.module.css';
 
 
+
 const Dialogs = (props) => {
     
     
@@ -16,6 +17,7 @@ const Dialogs = (props) => {
         let body = e.target.value;
         props.updateNewMessageBody(body)
     }
+
 
     return (
         <div className={style.dialogs}>

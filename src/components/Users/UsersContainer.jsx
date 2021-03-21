@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { followAC, unfollowAC, setCurrentPageAC, toggleFollowingProgressAC, getUsersThunkCreator, followThunkCreator, unfollowThunkCreator } from '../../state/reducers/users-reducer';
 import Users from './Users';
-import Preloader from '../common/Preloader/Preloader'
+import Preloader from '../common/Preloader/Preloader';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
 
 
-class UsersAPIContainer extends React.Component {
+class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize)
@@ -40,11 +42,15 @@ let mapStateToProps = (state) => {
         totalUsersCount: state.usersReducer.totalUsersCount,
         currentPage: state.usersReducer.currentPage,
         isFetching: state.usersReducer.isFetching,
-        followingInProgress: state.usersReducer.followingInProgress
+        followingInProgress: state.usersReducer.followingInProgress,
     }
 };
 
-
-export default connect(mapStateToProps, {
-    followAC, unfollowAC, setCurrentPageAC, toggleFollowingProgressAC, getUsersThunkCreator, followThunkCreator, unfollowThunkCreator
-})(UsersAPIContainer);
+export default compose(
+    withAuthRedirect,
+    connect(mapStateToProps, {
+        followAC, unfollowAC, setCurrentPageAC, 
+        toggleFollowingProgressAC, getUsersThunkCreator, followThunkCreator, 
+        unfollowThunkCreator
+    })
+)(UsersContainer);
