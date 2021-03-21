@@ -23,7 +23,6 @@ let AuthRedirectComponent = withAuthRedirect(ProfileContainer)
 
 let mapStateToProps = (state) => ({
     profile: state.profileReducer.profile,
-    isAuth: state.auth.isAuth
 });
 
 let WithUrlDataContainer = withRouter(AuthRedirectComponent);

@@ -6,8 +6,7 @@ import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 let mapStateToProps = (state) => {
     return {
-        dialogs: state.dialogReducer,
-        isAuth: state.auth.isAuth
+        dialogs: state.dialogReducer
     }
 }
 let mapDispatchToProps = (dispatch) => {

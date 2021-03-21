@@ -42,7 +42,6 @@ let mapStateToProps = (state) => {
         currentPage: state.usersReducer.currentPage,
         isFetching: state.usersReducer.isFetching,
         followingInProgress: state.usersReducer.followingInProgress,
-        isAuth: state.auth.isAuth
     }
 };
 
