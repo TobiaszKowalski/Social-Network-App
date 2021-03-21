@@ -2,6 +2,8 @@ import React from 'react';
 import Preloader from '../../common/Preloader/Preloader';
 import style from './ProfileInfo.module.css';
 import userPhoto from '../../../assets/images/userPhoto.png';
+import ProfileStatus from './ProfileStatus';
+
 
 
 const ProfileInfo = (props) => {
@@ -12,13 +14,14 @@ const ProfileInfo = (props) => {
 
     return (
         <div>
-            <div>
+            {/*<div>
                 <img src='https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg' alt = '' />
-            </div>
+            </div>*/}
             <div className={style.descriptionBlock}>
                 {
                     !props.profile.photos.large ? <img className={style.defaultAvatar} src={userPhoto} alt='' /> : <img src={props.profile.photos.large} alt='' />
                 }
+                <ProfileStatus status={'Пробный статус'} />
                 <div>
                     <div>{props.profile.fullName}</div>
                     <div>{props.profile.aboutMe}</div>
