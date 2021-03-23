@@ -21,12 +21,12 @@ const ProfileInfo = (props) => {
                 {
                     !props.profile.photos.large ? <img className={style.defaultAvatar} src={userPhoto} alt='' /> : <img src={props.profile.photos.large} alt='' />
                 }
-                <ProfileStatus status={'Пробный статус'} />
+                <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
                 <div>
                     <div>{props.profile.fullName}</div>
                     <div>{props.profile.aboutMe}</div>
                     {
-                        props.profile.lookingForAJob ? <div>Status: looking for a job</div> : <div>Status: not intrested in job right now</div>
+                        props.profile.lookingForAJob ? <div>Looking for a job</div> : <div>Not intrested in job right now</div>
                     }
                     <div>{props.profile.lookingForAJobDescription}</div>
                 </div>
