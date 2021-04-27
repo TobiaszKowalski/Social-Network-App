@@ -1,12 +1,19 @@
 import React from 'react';
-import LoginForm from './LoginForm/LoginForm'
+import LoginReduxForm from './LoginForm/LoginForm';
+import { getAuthLoginThunkCreator } from '../../state/reducers/auth-reducer';
 
 
 const Login = (props) => {
+
+    const onSubmit = (formData) => {
+        console.log(formData)
+        getAuthLoginThunkCreator(formData);
+    }
+
     return (
         <div>
             <h1>Login</h1>
-            <LoginForm />
+            <LoginReduxForm onSubmit={onSubmit} />
         </div>
     )
 }
