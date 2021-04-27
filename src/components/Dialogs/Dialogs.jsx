@@ -2,6 +2,7 @@ import React from 'react';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import style from './Dialogs.module.css';
+import { Field, reduxForm } from 'redux-form';
 
 
 
@@ -10,14 +11,25 @@ const Dialogs = (props) => {
     
     let dialogsElements = props.dialogs.dialogsData.map(el => <DialogItem name = {el.name} key = {el.id}  id = {el.id} /> );
     let messagesElements = props.dialogs.messagesData.map(el => <Message message = {el.message} key = {el.id} />);
-    let newMessageBody = props.dialogs.newMessageBody;
 
-    let onSendMessageClick = () => props.sendMessage()
-    let onNewMessangeChange = (e) => {
-        let body = e.target.value;
-        props.updateNewMessageBody(body)
+    let addNewMessage = (values) => {
+        props.sendMessage(values.newMessageBody)
     }
 
+    const AddMessageForm = (props) => {
+        return (
+            <form onSubmit={props.handleSubmit}>
+                <div>
+                    <Field component = 'textarea' name = 'newMessageBody' placeholder = 'Enter your message' />
+                </div>
+                <div>
+                    <button>Send</button>
+                </div>
+            </form>
+        )
+    }
+    
+    const AddMessageReduxForm = reduxForm({form: 'dialogAddMessageForm'})(AddMessageForm)
 
     return (
         <div className={style.dialogs}>
@@ -26,17 +38,13 @@ const Dialogs = (props) => {
             </div>
             <div className={style.messages}>
                 <div>{messagesElements}</div>
-                <div>
-                    <div>
-                        <textarea value = {newMessageBody} onChange = {onNewMessangeChange} placeholder='Enter tour message'></textarea>
-                    </div>
-                    <div>
-                        <button onClick={onSendMessageClick}>Send</button>
-                    </div>
-                </div>
             </div>
+            <AddMessageReduxForm onSubmit={addNewMessage} />
         </div>
     );
+
+    
 }
+
 
 export default Dialogs;

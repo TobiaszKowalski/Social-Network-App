@@ -14,9 +14,6 @@ const ProfileInfo = (props) => {
 
     return (
         <div>
-            {/*<div>
-                <img src='https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg' alt = '' />
-            </div>*/}
             <div className={style.descriptionBlock}>
                 {
                     !props.profile.photos.large ? <img className={style.defaultAvatar} src={userPhoto} alt='' /> : <img src={props.profile.photos.large} alt='' />
