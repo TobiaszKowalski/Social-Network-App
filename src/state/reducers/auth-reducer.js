@@ -15,7 +15,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA: 
-            return {...state, ...action.data, isAuth: true} 
+            return {...state, ...action.payload} 
         case ON_AUTH_USER: 
             return {...state, isAuth: true} 
         case TOGGLE_IS_FETCHING:
@@ -25,9 +25,9 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export const setAuthUserDataAC = (id, email, login) => ({
+export const setAuthUserDataAC = (id, email, login, isAuth) => ({
     type: SET_USER_DATA, 
-    data: {id, email, login}
+    payload: {id, email, login, isAuth}
 })
 export const setAuthFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 export const setAuthLoginAC = () => ({type: ON_AUTH_USER})
@@ -39,18 +39,25 @@ export const getAuthThunkCreator = () => {
             dispatch(setAuthFetchingAC(false))
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data;
-                dispatch(setAuthUserDataAC(id, email, login));
+                dispatch(setAuthUserDataAC(id, email, login, true));
             }
         });
     }
 }
-export const getAuthLoginThunkCreator = (loginFormData) => {
+export const loginThunkCreator = (email, password, rememberMe) => {
     return (dispatch) => {
-        dispatch(setAuthFetchingAC(true));
-        authAPI.onAuthLogin(loginFormData).then(data=>{
-            dispatch(setAuthFetchingAC(false));
-            if (data === 0) {
-                dispatch(setAuthLoginAC());
+        authAPI.login(email, password, rememberMe).then(response=>{
+            if (response.data.resultCode === 0) {
+                dispatch(getAuthThunkCreator());
+            }
+        })
+    }
+}
+export const logoutThunkCreator = () => {
+    return (dispatch) => {
+        authAPI.logout().then(response=>{
+            if (response.data.resultCode === 0) {
+                dispatch(setAuthUserDataAC(null, null, null, false));
             }
         })
     }
