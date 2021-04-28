@@ -1,4 +1,5 @@
 import { authAPI } from '../../API/api';
+import { stopSubmit } from 'redux-form';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -35,10 +36,10 @@ export const setAuthLoginAC = () => ({type: ON_AUTH_USER})
 export const getAuthThunkCreator = () => {
     return (dispatch) => {
         dispatch(setAuthFetchingAC(true));
-        authAPI.onAuth().then(data=>{
+        authAPI.onAuth().then(response=>{
             dispatch(setAuthFetchingAC(false))
-            if (data.resultCode === 0) {
-                let {id, login, email} = data.data;
+            if (response.data.resultCode === 0) {
+                let {id, login, email} = response.data.data;
                 dispatch(setAuthUserDataAC(id, email, login, true));
             }
         });
@@ -49,6 +50,9 @@ export const loginThunkCreator = (email, password, rememberMe) => {
         authAPI.login(email, password, rememberMe).then(response=>{
             if (response.data.resultCode === 0) {
                 dispatch(getAuthThunkCreator());
+            } else {
+                let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Error';
+                dispatch(stopSubmit('login', {_error: message}))
             }
         })
     }
