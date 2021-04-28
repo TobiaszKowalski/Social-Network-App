@@ -2,11 +2,13 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Input } from '../../common/FormControls/FormsControl';
 import { required } from '../../../utils/validators/validators';
+import style from '../../common/FormControls/FormControls.module.css';
 
 
 const LoginForm = (props) => {
     return (
             <form onSubmit={props.handleSubmit}>
+                { props.error && <div className={style.formSummaryError}>{props.error}</div>}
                 <div>
                     <Field placeholder={'Login'} name={'email'}
                     type={'email'}

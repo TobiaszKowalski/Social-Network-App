@@ -5,3 +5,11 @@
 .formControl.error span {
     color: red;
 }
+.formSummaryError {
+    border: 1px solid red;
+    color: red;
+    margin-bottom: 5px;
+    width: 10vw;
+    display: flex;
+    justify-content: center;
+}
