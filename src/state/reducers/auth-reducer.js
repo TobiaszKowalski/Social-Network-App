@@ -36,7 +36,7 @@ export const setAuthLoginAC = () => ({type: ON_AUTH_USER})
 export const getAuthThunkCreator = () => {
     return (dispatch) => {
         dispatch(setAuthFetchingAC(true));
-        authAPI.onAuth().then(response=>{
+        return authAPI.onAuth().then(response=>{
             dispatch(setAuthFetchingAC(false))
             if (response.data.resultCode === 0) {
                 let {id, login, email} = response.data.data;
@@ -47,7 +47,7 @@ export const getAuthThunkCreator = () => {
 }
 export const loginThunkCreator = (email, password, rememberMe) => {
     return (dispatch) => {
-        authAPI.login(email, password, rememberMe).then(response=>{
+        return authAPI.login(email, password, rememberMe).then(response=>{
             if (response.data.resultCode === 0) {
                 dispatch(getAuthThunkCreator());
             } else {

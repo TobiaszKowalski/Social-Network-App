@@ -10,10 +10,25 @@ import Settings from './components/Settings/Settings';
 import UsersContainer from './components/Users/UsersContainer'
 import Login from './components/Login/Login';
 import { Route } from 'react-router-dom';
+import { withRouter } from "react-router";
+import { connect } from 'react-redux';
+import { initializeAppTC } from './state/reducers/app-reducer';
+import { compose } from 'redux';
+import Preloader from './components/common/Preloader/Preloader';
 
 
-const App = (props) => {
-  return (
+class App extends React.Component {
+
+  componentDidMount() {
+    this.props.initializeAppTC()
+  }
+
+  render() {
+    if (!this.props.initialized) {
+      return <Preloader />
+    }
+
+    return (
       <div className = 'app-wrapper'>
         <HeaderContainer />
         <Navbar />
@@ -26,14 +41,22 @@ const App = (props) => {
             path='/dialogs' 
             render={() => <DialogsContainer /> } 
           />
-          <Route exact path='/news' render={() => <News /> } />
-          <Route exact path='/music' render={() => <Music /> } />
-          <Route exact path='/settings' render={() => <Settings /> } />
+          <Route path='/news' render={() => <News /> } />
+          <Route path='/music' render={() => <Music /> } />
+          <Route path='/settings' render={() => <Settings /> } />
           <Route path='/users' render={() => <UsersContainer /> } />
           <Route path='/login' render={() => <Login /> } />
+        </div>
       </div>
-      </div>
-  );
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized
+})
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {initializeAppTC})
+)(App);
