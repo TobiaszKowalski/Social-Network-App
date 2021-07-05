@@ -16,8 +16,8 @@ let Users = (props) => {
     return (
         <div>
             <div>
-                {pages.slice(0, 10).map(p => {
-                    return <span className={`${props.currentPage === p && style.selectedPage} ${style.pageNumbers}`} onClick={(e) => {props.onPageChanged(p)}}>{p}</span>
+                {pages.slice(0, 10).map((p, index) => {
+                    return <span key={index} className={`${props.currentPage === p && style.selectedPage} ${style.pageNumbers}`} onClick={(e) => {props.onPageChanged(p)}}>{p}</span>
                 })}
             </div>
             {

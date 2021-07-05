@@ -12,7 +12,7 @@ const MyPosts = (props) => {
         props.addPost(values.newPostText);
     };
 
-    let postsElements = props.postData.map(el => <Post message={el.message} likesCount = {el.likesCount} />)
+    let postsElements = props.postData.map((el, index) => <Post key={index} message={el.message} likesCount = {el.likesCount} />)
 
     const maxLength10 = maxLengthCreator(10);
 
