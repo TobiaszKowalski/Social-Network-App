@@ -33,7 +33,7 @@ it('new post should be added', () => {
 
 it('after removing post posts length should be decremented', () => {
     // Test data
-    let action = deletePost(3);
+    let action = deletePost(1);
 
     // Action
     let newState = profileReducer(state, action);

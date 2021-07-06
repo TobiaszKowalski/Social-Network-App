@@ -30,7 +30,7 @@ const profileReducer = (state = initialState, action) => {
         case DELETE_POST: 
             return {
                 ...state,
-                postData: state.postData.filter(p => p.id !== action.id),
+                postData: state.postData.filter(p => p.id != action.id),
             };
         case SET_USER_PROFILE: 
             return {
