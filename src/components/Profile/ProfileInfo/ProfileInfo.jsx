@@ -8,23 +8,24 @@ import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
 
-    if (!props.profile) {
-        return <Preloader />
+    if (!props.profile) {return <Preloader />}
+
+    const onPhotoSelected = (e) => {
+        if (e.target.files.length) {
+            props.savePhoto(e.target.files[0])
+        } 
     }
 
     return (
         <div>
             <div className={style.descriptionBlock}>
-                {
-                    !props.profile.photos.large ? <img className={style.defaultAvatar} src={userPhoto} alt='' /> : <img src={props.profile.photos.large} alt='' />
-                }
+                {!props.profile.photos.large ? <img className={style.defaultAvatar} src={userPhoto} alt='' /> : <img src={props.profile.photos.large} alt='' />}
+                {props.isOwner && <input type={'file'} onChange={onPhotoSelected} />}
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
                 <div>
                     <div>{props.profile.fullName}</div>
                     <div>{props.profile.aboutMe}</div>
-                    {
-                        props.profile.lookingForAJob ? <div>Looking for a job</div> : <div>Not intrested in job right now</div>
-                    }
+                    {props.profile.lookingForAJob ? <div>Looking for a job</div> : <div>Not intrested in job right now</div>}
                     <div>{props.profile.lookingForAJobDescription}</div>
                 </div>
             </div>
